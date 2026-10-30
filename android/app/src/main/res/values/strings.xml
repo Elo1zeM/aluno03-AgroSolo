@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AgroSolo</string>
+    <string name="title_activity_main">AgroSolo</string>
+    <string name="package_name">com.agrosolo.app</string>
+    <string name="custom_url_scheme">com.agrosolo.app</string>
+</resources>
