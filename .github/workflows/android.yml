@@ -39,13 +39,16 @@ jobs:
       - name: Preparar Gradle
         run: chmod +x android/gradlew
 
-      - name: Verificar XML do Manifest
-        run: python -c "import xml.etree.ElementTree as ET; ET.parse('android/app/src/main/AndroidManifest.xml'); print('XML valido')"
+      - name: Diagnosticar Manifest
+        run: |
+          python -c "from pathlib import Path; p=Path('android/app/src/main/AndroidManifest.xml'); b=p.read_bytes(); print('PRIMEIROS BYTES:', repr(b[:100])); print('PRIMEIRAS LINHAS:'); [print(f'{i}: {line!r}') for i, line in enumerate(b.decode('utf-8', errors='replace').splitlines()[:8], 1)]"
+          python -c "import xml.etree.ElementTree as ET; ET.parse('android/app/src/main/AndroidManifest.xml'); print('XML valido')"
 
       - name: Gerar APK
         run: cd android && ./gradlew assembleDebug --stacktrace --info
 
       - name: Disponibilizar APK
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: AgroSolo-APK
